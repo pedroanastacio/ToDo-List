@@ -1,5 +1,5 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react"
-import { PlusCircle, SortAscending } from "phosphor-react"
+import { ChangeEvent, FormEvent, InvalidEvent, useEffect, useState } from "react"
+import { PlusCircle, SortAscending, SortDescending } from "phosphor-react"
 import { v4 as uuidv4 } from "uuid";
 
 import { Header } from "./components/Header"
@@ -26,23 +26,25 @@ const TASKS = [
   {
     id: uuidv4(),
     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum is simply dummy text.",
-    isDone: false
+    isDone: true
   },
   {
     id: uuidv4(),
     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum is simply dummy text.",
-    isDone: true
+    isDone: false
   }
 ]
 
 export function App() {
   const [tasks, setTasks] = useState<Task[]>(TASKS)
   const [newTaskDescription, setNewTaskDescription] = useState<string>("")
+  const [sortBy, setSortBy] = useState<"done" | "undone" | null>(null)
 
   const totalTasks = tasks.length
   const tasksDone = tasks.filter(task => task.isDone).length
-
   const listIsEmpty = tasks.length === 0
+  const isSorting = !!sortBy
+  const isSortingByUndone = sortBy === "undone"
 
   function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
     event.target.setCustomValidity("")
@@ -62,6 +64,28 @@ export function App() {
       isDone: false
     }])
     setNewTaskDescription("")
+  }
+
+  function handleSortChange() {
+    switch (sortBy) {
+      case "done":
+        setSortBy("undone")
+        const tasksSortedByUndone = tasks.sort((a, b) => Number(a.isDone) - Number(b.isDone))
+        setTasks(tasksSortedByUndone)
+        break
+      case "undone":
+        setSortBy(null)
+        const tasksWithoutSort = tasks.sort((a, b) => Math.random() - 0.5)
+        setTasks(tasksWithoutSort)
+        break
+      case null:
+        setSortBy("done")
+        const tasksSortedByDone = tasks.sort((a, b) => Number(b.isDone) - Number(a.isDone))
+        setTasks(tasksSortedByDone)
+        break
+      default:
+        return
+    }
   }
 
   function handleTaskIsDoneChange(id: string) {
@@ -138,6 +162,18 @@ export function App() {
                 </div>
                 :
                 <div className={styles.taskList}>
+                  <button
+                    className={`${styles.sort} ${isSorting ? styles.sortActive : ""}`}
+                    onClick={handleSortChange}
+                  >
+                    {
+                      isSortingByUndone ?
+                        <SortDescending size={18} />
+                        :
+                        <SortAscending size={18} />
+                    }
+                  </button>
+
                   {tasks.map(task => {
                     return (
                       <Task
@@ -151,8 +187,8 @@ export function App() {
                     )
                   })}
 
-                  <button onClick={handleDeleteAll}>
-                    Apagar todos
+                  <button onClick={handleDeleteAll} className={styles.removeAll}>
+                    Remover todos
                   </button>
                 </div>
             }

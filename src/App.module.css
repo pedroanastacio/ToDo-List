@@ -77,11 +77,29 @@
     gap: .75rem;
 }
 
-.taskList .sort {
+.sort {
     align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: var(--gray-300);
+    cursor: pointer;
+    background-color: transparent;
+    padding: .2rem;
+    border-radius: 4px;
 }
 
-.taskList > button {
+.sort:hover {
+    background-color: var(--gray-400);
+    color: var(--purple-700);
+}
+
+.sort.sortActive {
+    color: var(--purple-700);
+}
+
+.removeAll {
     align-self: flex-end;
     border: none;
     color: var(--gray-300);
@@ -92,7 +110,6 @@
     padding: .4rem;
 }
 
-.taskList > button:hover {
-    background-color: var(--gray-400);
+.removeAll:hover {
     color: var(--danger);
 }
