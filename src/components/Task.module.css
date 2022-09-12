@@ -87,11 +87,13 @@
     border: none;
     color: var(--gray-300);
     border-radius: 4px;
-    padding: .25rem;
     cursor: pointer;
 }
 
 .task button:hover {
     background-color: var(--gray-400);
-    color: var(--danger);
+}
+
+.task button:hover img {
+    filter: invert(51%) sepia(27%) saturate(6282%) hue-rotate(331deg) brightness(102%) contrast(78%);
 }

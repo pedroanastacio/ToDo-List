@@ -55,9 +55,44 @@
     font-size: .875rem;
 }
 
+.emptyList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border-top: 1px solid var(--gray-400);
+    padding-top: 4rem;
+}
+
+.emptyList span {
+    color: var(--gray-300);
+    line-height: 140%;
+}
+
 .taskList {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: .75rem;
+}
+
+.taskList .sort {
+    align-self: flex-end;
+}
+
+.taskList > button {
+    align-self: flex-end;
+    border: none;
+    color: var(--gray-300);
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: transparent;
+    font-size: .8rem;
+    padding: .4rem;
+}
+
+.taskList > button:hover {
+    background-color: var(--gray-400);
+    color: var(--danger);
 }

@@ -1,11 +1,12 @@
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react"
-import { PlusCircle } from "phosphor-react"
+import { PlusCircle, SortAscending } from "phosphor-react"
 import { v4 as uuidv4 } from "uuid";
 
 import { Header } from "./components/Header"
 import { Button } from "./components/Button"
 import { Task } from "./components/Task"
 import { Badge } from "./components/Badge"
+import clipboard from "./assets/clipboard.svg"
 
 import styles from "./App.module.css"
 import "./global.css"
@@ -41,6 +42,8 @@ export function App() {
   const totalTasks = tasks.length
   const tasksDone = tasks.filter(task => task.isDone).length
 
+  const listIsEmpty = tasks.length === 0
+
   function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
     event.target.setCustomValidity("")
     setNewTaskDescription(event.target.value)
@@ -63,8 +66,8 @@ export function App() {
 
   function handleTaskIsDoneChange(id: string) {
     const newTasks = tasks.map(task => {
-      if(task.id === id) {
-        return {...task, isDone: !task.isDone}
+      if (task.id === id) {
+        return { ...task, isDone: !task.isDone }
       }
 
       return task
@@ -76,6 +79,10 @@ export function App() {
   function handleDeleteTask(id: string) {
     const remainingTasks = tasks.filter(task => task.id !== id)
     setTasks(remainingTasks)
+  }
+
+  function handleDeleteAll() {
+    setTasks([])
   }
 
   return (
@@ -112,25 +119,43 @@ export function App() {
               <div className={styles.count}>
                 <h5 className={styles.done}>Concluídas</h5>
                 <Badge>
-                  {tasksDone} de {totalTasks}
+                  {
+                    listIsEmpty ? 0 : `${tasksDone} de ${totalTasks}`
+                  }
                 </Badge>
               </div>
             </header>
 
-            <div className={styles.taskList}>
-              {tasks.map(task => {
-                return (
-                  <Task
-                    key={`task-${task.id}`}
-                    id={task.id}
-                    description={task.description}
-                    isDone={task.isDone}
-                    setIsDone={handleTaskIsDoneChange}
-                    onDelete={handleDeleteTask}
-                  />
-                )
-              })}
-            </div>
+            {
+              listIsEmpty ?
+                <div className={styles.emptyList}>
+                  <img src={clipboard} alt="Prancheta" />
+
+                  <span>
+                    <b>Você ainda não tem tarefas cadastradas</b><br />
+                    Crie tarefas e organize seus itens a fazer
+                  </span>
+                </div>
+                :
+                <div className={styles.taskList}>
+                  {tasks.map(task => {
+                    return (
+                      <Task
+                        key={`task-${task.id}`}
+                        id={task.id}
+                        description={task.description}
+                        isDone={task.isDone}
+                        setIsDone={handleTaskIsDoneChange}
+                        onDelete={handleDeleteTask}
+                      />
+                    )
+                  })}
+
+                  <button onClick={handleDeleteAll}>
+                    Apagar todos
+                  </button>
+                </div>
+            }
           </main>
         </div>
       </div>

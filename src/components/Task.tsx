@@ -1,4 +1,4 @@
-import { Trash } from "phosphor-react"
+import trash from "../assets/trash.svg"
 
 import styles from "./Task.module.css"
 
@@ -32,7 +32,7 @@ export function Task({ id, description, isDone, setIsDone, onDelete }: TaskProps
         </span>
 
       <button onClick={() => onDelete(id)}>
-        <Trash size={16} />
+        <img src={trash} alt="Lixeira" />
       </button>
     </div>
   )
