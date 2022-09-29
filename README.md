@@ -7,7 +7,7 @@ An application to manage your tasks. Here you can add tasks to be done, mark as 
 
 https://user-images.githubusercontent.com/45208073/189776121-75b17e52-60e8-4ad9-a501-6060e0b8f8fc.mp4
 
-<h3>:iphone: Tablet</h3>
+<h3>:iphone: Mobile</h3>
 
 https://user-images.githubusercontent.com/45208073/189776130-30d8cde8-a625-4fa6-87ee-3b3cb340571d.mp4
 
